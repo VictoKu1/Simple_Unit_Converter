@@ -48,4 +48,10 @@ public:
   friend ostream &operator<<(ostream &os, const NumberWithUnits &a);
   friend istream &operator>>(istream &is, NumberWithUnits &a);
 };
+string before(string str, string sparator);
+string after(string str, string sparator);
+double numPart(string str);
+string stringPart(string str);
+void arrange(string unit1,string unit2);
+void put(string unit1,string unit2, double cof);
 } // namespace ariel

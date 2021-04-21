@@ -3,7 +3,6 @@
 using namespace std;
 using namespace ariel;
 ifstream units_file{"units.txt"};
-
 TEST_CASE("Testing correct addition.") {
   NumberWithUnits::read_units(units_file);
   NumberWithUnits cm1{1, "cm"};
