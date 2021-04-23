@@ -7,11 +7,16 @@ VALGRIND_FLAGS=-v --leak-check=full --show-leak-kinds=all  --error-exitcode=99
 SOURCES=NumberWithUnits.cpp
 OBJECTS=$(subst .cpp,.o,$(SOURCES))
 
-run: test
-	./$^
+run: test1 test2 test3
 
-test: TestRunner.o StudentTest1.o  StudentTest2.o  StudentTest3.o  $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $^ -o test
+test1: TestRunner.o StudentTest1.o  $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+test2: TestRunner.o StudentTest2.o  $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+test3: TestRunner.o StudentTest3.o  $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
 main: Main.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o main
@@ -29,11 +34,11 @@ StudentTest3.cpp:  # Roei Birger
 	curl https://raw.githubusercontent.com/roei-birger/CPP_course_p3/master/Test.cpp > $@
 
 tidy:
-	clang-tidy $(SOURCES) -checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-owning-memory --warnings-as-errors=-* --
+	clang-tidy $(SOURCES) -checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-owning-memory,-readability-isolate-declaration --warnings-as-errors=-* --
 
-valgrind: test
-	valgrind --leak-check=full --error-exitcode=99 --tool=memcheck $(VALGRIND_FLAGS) ./test 
+valgrind: test1
+	valgrind --leak-check=full --error-exitcode=99 --tool=memcheck $(VALGRIND_FLAGS) ./test1 
 
 clean:
-	rm -f *.o test
+	rm -f *.o test*
 	rm -f StudentTest*.cpp
