@@ -23,7 +23,8 @@ string after(string str, string sparator) {
 double numPart(string str) {
   string part = "";
   int i = 0;
-  while ((((int)str[i]) >= 48 && ((int)str[i]) <= 57) || str[i] == " " || str[i] == ".") {
+  char charAt = str.at(0);
+  while ((((int)charAt) >= 48 && ((int)charAt) <= 57) || str[i] == " " || str[i] == ".") {
     part.append(str.at(i));
     i++;
   }
