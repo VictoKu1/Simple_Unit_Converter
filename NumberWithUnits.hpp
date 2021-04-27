@@ -10,32 +10,24 @@ private:
   double number; //*Represents the digit part of the number.
   string unit;   //*Represents the unit specification part of the number .
 public:
-  NumberWithUnits(double number, string unit) {
-    (*this).number = number;
-    (*this).unit = unit;
-  }
+  NumberWithUnits(double number, const string &unit);
   static void read_units(ifstream &units_file); //*Reads from a text file.
-  friend int
+  friend double
   convert(const NumberWithUnits &a,
           const NumberWithUnits &b); //*Convert from one unit to other in case
                                      //they are in the same field .
   //*Arithmetic operators overload.
-  friend NumberWithUnits operator+(const NumberWithUnits &a,
-                                   const NumberWithUnits &b);
-  friend NumberWithUnits operator+(const NumberWithUnits &a);
-  friend NumberWithUnits operator+=(const NumberWithUnits &a,
-                                    const NumberWithUnits &b);
-  friend NumberWithUnits operator-(const NumberWithUnits &a,
-                                   const NumberWithUnits &b);
-  friend NumberWithUnits operator-(const NumberWithUnits &a);
-  friend NumberWithUnits operator-=(const NumberWithUnits &a,
-                                    const NumberWithUnits &b);
-  friend NumberWithUnits operator++(const NumberWithUnits &a);
-  friend NumberWithUnits operator++(const NumberWithUnits &a, int);
-  friend NumberWithUnits operator--(const NumberWithUnits &a);
-  friend NumberWithUnits operator--(const NumberWithUnits &a, int);
+  NumberWithUnits operator+(const NumberWithUnits &b);
+  NumberWithUnits operator+();
+  NumberWithUnits &operator+=(const NumberWithUnits &b);
+  NumberWithUnits operator-(const NumberWithUnits &b);
+  NumberWithUnits operator-();
+  NumberWithUnits &operator-=(const NumberWithUnits &b);
+  NumberWithUnits &operator++();
+  NumberWithUnits operator++(int);
+  NumberWithUnits &operator--();
+  NumberWithUnits operator--(int);
   friend NumberWithUnits operator*(const NumberWithUnits &a, const double b);
-  friend NumberWithUnits operator*(const double a, const NumberWithUnits &b);
   friend NumberWithUnits operator*(const double a, const NumberWithUnits &b);
   //*Logical operators overload.
   friend bool operator<(const NumberWithUnits &a, const NumberWithUnits &b);
@@ -48,10 +40,17 @@ public:
   friend ostream &operator<<(ostream &os, const NumberWithUnits &a);
   friend istream &operator>>(istream &is, NumberWithUnits &a);
 };
-string before(string str, string sparator);
-string after(string str, string sparator);
+string before(string &str, string &sparator);
+string after(string &str, string &sparator);
 double numPart(string str);
 string stringPart(string str);
-void arrange(string unit1,string unit2);
-void put(string unit1,string unit2, double cof);
+bool isConnected(string &unit1, string &unit2, double cof);
+void put(string &unit1, string &unit2, double cof);
+bool contains(const string &unit);
+bool contains(string &unit1, string &unit2);
+void printMap();
 } // namespace ariel
+
+
+
+

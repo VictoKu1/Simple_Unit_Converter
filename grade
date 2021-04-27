@@ -45,7 +45,6 @@ grade_command make -f Makefile valgrind
 printf "### Score $i: $grade\n"
 total=$((total + grade))
 
-
 total=$((total / i))
 printf "\n\nGrade: $total\n\n"
 

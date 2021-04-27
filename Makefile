@@ -42,3 +42,5 @@ valgrind: test1
 clean:
 	rm -f *.o test*
 	rm -f StudentTest*.cpp
+	rm -f filename.txt filename2.txt myTestFile.txt main
+
