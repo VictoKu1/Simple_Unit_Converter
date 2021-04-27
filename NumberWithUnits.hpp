@@ -40,17 +40,9 @@ public:
   friend ostream &operator<<(ostream &os, const NumberWithUnits &a);
   friend istream &operator>>(istream &is, NumberWithUnits &a);
 };
-string before(string &str, string &sparator);
-string after(string &str, string &sparator);
-double numPart(string str);
-string stringPart(string str);
 bool isConnected(string &unit1, string &unit2, double cof);
 void put(string &unit1, string &unit2, double cof);
 bool contains(const string &unit);
 bool contains(string &unit1, string &unit2);
 void printMap();
 } // namespace ariel
-
-
-
-

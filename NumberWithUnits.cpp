@@ -20,67 +20,15 @@ bool contains(string &unit1, string &unit2) {
   return false;
 }
 NumberWithUnits::NumberWithUnits(double number, const string &unit) {
-  if (!contains(unit)) {
+  if (dic.count(unit) == 0) {
     throw invalid_argument{"Wrong unit ."};
   }
   (*this).number = number;
   (*this).unit = unit;
 }
-
-//*Returns the subsring from the begining of the string till the first occurence
-// of the given separator string .
-string before(string &str, string &sparator) {
-  return str.substr(0, str.find_first_of(sparator));
-}
-
-//*Returns the subsring from the first occurence of the given separator string
-// till the end of the string.
-string after(string &str, string &sparator) {
-  return str.substr(str.find_first_of(sparator));
-}
-
-//*Gets the numberical part out of the string .
-double numPart(string str) {
-  string part;
-  int i = 0;
-  char charAt = str.at(0);
-  const int ZERO_ASCII_CODE = 48;
-  const int NINE_ASCII_CODE = 57;
-  while ((charAt >= ZERO_ASCII_CODE && charAt <= NINE_ASCII_CODE) ||
-         charAt == ' ' || charAt == '.') {
-    part.push_back(charAt);
-    i++;
-    charAt = str.at((unsigned long)i);
-  }
-  part.erase(remove(part.begin(), part.end(), ' '), part.end());
-  return atof(part.c_str());
-}
-
-//*Gets the string part out of the string .
-string stringPart(string str) {
-  string part;
-  int i = 0;
-  char charAt = str.at(0);
-  const int A_ASCII_CODE = 65;
-  const int Z_ASCII_CODE = 90;
-  const int CAPITAL_A_ASCII_CODE = 97;
-  const int CAPITAL_Z_ASCII_CODE = 122;
-  while ((charAt >= A_ASCII_CODE && charAt <= Z_ASCII_CODE) ||
-         (charAt >= CAPITAL_A_ASCII_CODE && charAt <= CAPITAL_A_ASCII_CODE) ||
-         charAt == ' ' || charAt == '.') {
-    part.push_back(charAt);
-    i++;
-
-    charAt = str.at((unsigned long)i);
-  }
-  part.erase(remove(part.begin(), part.end(), ' '), part.end());
-  return part;
-}
-
 bool isConnected(string &unit1, string &unit2, double cof) {
   return (contains(unit1, unit2));
 }
-
 void put(string &unit1, string &unit2, double cof) {
   if (unit1 == unit2) {
     return;
@@ -88,54 +36,37 @@ void put(string &unit1, string &unit2, double cof) {
   if (isConnected(unit1, unit2, cof)) {
     return;
   }
-
   if (cof != 0) {
     dic[unit1][unit2] = cof;
     dic[unit2][unit1] = (1 / cof);
     for (auto &u1 : dic[unit2]) {
       string su1 = u1.first;
-      //*if (!isConnected(unit1, su1, cof * u1.second)) {
       put(unit1, su1, cof * u1.second);
-      //*}
     }
     for (auto &u2 : dic[unit1]) {
       string su2 = u2.first;
-      //*if (!isConnected(unit1, su2, (1 / cof) * u2.second)) {
       put(unit2, su2, (1 / cof) * u2.second);
-      //*}
     }
   } else {
     dic[unit1][unit2] = 0;
     dic[unit2][unit1] = 0;
     for (auto &u1 : dic[unit2]) {
       string su1 = u1.first;
-      //*if (!isConnected(unit1, su1, cof * u1.second)) {
       put(unit1, su1, 0);
-      //*}
     }
     for (auto &u2 : dic[unit1]) {
       string su2 = u2.first;
-      //*if (!isConnected(unit1, su2, (1 / cof) * u2.second)) {
       put(unit2, su2, 0);
-      //*}
     }
   }
 }
-
 void NumberWithUnits::read_units(ifstream &units_file) {
   string mid;
-  double num1;
+  double num1 = 0.0;
   string unit1;
-  double num2;
+  double num2 = 0.0;
   string unit2;
   while (units_file >> num1 >> unit1 >> mid >> num2 >> unit2) {
-    // string equals = "=";
-    // string bef = before(line, equals);
-    // double num1 = numPart(bef);
-    // string unit1 = stringPart(bef);
-    // string afr = after(line, equals);
-    // double num2 = numPart(afr);
-    // string unit2 = stringPart(afr);
     if (num1 != 0) {
       put(unit1, unit2, (num2 / num1));
     } else {
@@ -143,21 +74,18 @@ void NumberWithUnits::read_units(ifstream &units_file) {
     }
   }
 }
-
 double convert(const NumberWithUnits &a, const NumberWithUnits &b) {
   string au = a.unit;
   string bu = b.unit;
   if (au == bu) {
-    return a.number;
+    return b.number;
   }
   if (!contains(au, bu)) {
     throw invalid_argument{"Units do not match - [" + au +
                            "] cannot be converted to [" + bu + "]"};
   }
-
   return b.number * dic[bu][au];
 }
-
 NumberWithUnits NumberWithUnits::operator+(const NumberWithUnits &b) {
   double cof = convert((*this), b);
   NumberWithUnits answer((*this).number + cof, (*this).unit);
@@ -226,6 +154,9 @@ bool operator>=(const NumberWithUnits &a, const NumberWithUnits &b) {
 }
 const double TOLERANCE = 0.001;
 bool operator==(const NumberWithUnits &a, const NumberWithUnits &b) {
+  if(a.unit==b.unit){
+    return (abs(a.number - b.number)) <= TOLERANCE;
+  }
   double value = convert(a, b);
   return (abs(a.number - value)) <= TOLERANCE;
 }
