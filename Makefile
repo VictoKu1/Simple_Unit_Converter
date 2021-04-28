@@ -24,7 +24,7 @@ main1: Main.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o main
 
 units.txt:
-	curl https://raw.githubusercontent.com/VictoKu1/CPP_EX3.B/master/LICENSE > $@
+	curl https://raw.githubusercontent.com/VictoKu1/CPP_EX3.B/master/units.txt > $@
 
 %.o: %.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) --compile $< -o $@
