@@ -1,10 +1,10 @@
-//* None of these work , here only for stable runnung of bash grade .
 #include "NumberWithUnits.hpp"
 #include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
 #include <map>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -154,7 +154,7 @@ bool operator>=(const NumberWithUnits &a, const NumberWithUnits &b) {
 }
 const double TOLERANCE = 0.001;
 bool operator==(const NumberWithUnits &a, const NumberWithUnits &b) {
-  if(a.unit==b.unit){
+  if (a.unit == b.unit) {
     return (abs(a.number - b.number)) <= TOLERANCE;
   }
   double value = convert(a, b);
@@ -164,11 +164,25 @@ bool operator!=(const NumberWithUnits &a, const NumberWithUnits &b) {
   return (!(a == b));
 }
 ostream &operator<<(ostream &os, const NumberWithUnits &a) {
-  return os << a.number << "[" << a.unit << "]";
+  return (os << a.number << "[" << a.unit << "]");
 }
 istream &operator>>(istream &is, NumberWithUnits &a) {
-  string miscellaneous;
-  is >> a.number >> miscellaneous >> a.unit;
+  string str;
+  double number = 0.0;
+  string unit;
+  char delimeter(']');
+  getline(is, str, delimeter);
+  str.erase(remove(str.begin(), str.end(), ' '), str.end());
+  replace(str.begin(), str.end(), ']', ' ');
+  istringstream is1(str);
+  is1 >> number >> unit;
+  unit.erase(remove(unit.begin(), unit.end(), '['), unit.end());
+  if (dic.count(unit) == 0) {
+    throw invalid_argument{"Wrong unit ."};
+  }
+
+  a.unit = unit;
+  a.number = number;
   return is;
 }
 void printMap() {

@@ -15,7 +15,7 @@ public:
   friend double
   convert(const NumberWithUnits &a,
           const NumberWithUnits &b); //*Convert from one unit to other in case
-                                     //they are in the same field .
+                                     // they are in the same field .
   //*Arithmetic operators overload.
   NumberWithUnits operator+(const NumberWithUnits &b);
   NumberWithUnits operator+();

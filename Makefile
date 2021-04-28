@@ -18,8 +18,13 @@ test2: TestRunner.o StudentTest2.o  $(OBJECTS)
 test3: TestRunner.o StudentTest3.o  $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-main: Main.o $(OBJECTS)
+main: units.txt main1
+
+main1: Main.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o main
+
+units.txt:
+	curl https://raw.githubusercontent.com/VictoKu1/CPP_EX3.B/master/LICENSE > $@
 
 %.o: %.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) --compile $< -o $@
@@ -42,5 +47,5 @@ valgrind: test1
 clean:
 	rm -f *.o test*
 	rm -f StudentTest*.cpp
-	rm -f filename.txt filename2.txt myTestFile.txt main
+	rm -f filename.txt filename2.txt myTestFile.txt main units.txt
 
