@@ -32,20 +32,31 @@ make test
 ```
 
 Additionally, the code must successfully pass the readability test (20% of the grade):
+Additionally, the code must successfully pass the readability test (20% of the grade):
 
+```bash
+make tidy
+```
 ```bash
 make tidy
 ```
 
 And the memory test (20% of the grade):
+And the memory test (20% of the grade):
 
+```bash
+make valgrind
+```
 ```bash
 make valgrind
 ```
 
 Furthermore, you must write a **main program** that demonstrates your solution.
 The content of the program is your choice - be creative. The program will not be automatically tested but only during presentation.
+Furthermore, you must write a **main program** that demonstrates your solution.
+The content of the program is your choice - be creative. The program will not be automatically tested but only during presentation.
 
+You can check your grade using the command:
 You can check your grade using the command:
 
 ```bash
